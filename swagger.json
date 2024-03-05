@@ -1,0 +1,491 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Grafos Tech - Rotas - NÃO IMPLEMENTADO",
+    "version": "v1",
+    "description": "Passo a passo para realizar o envio/busca de uma Rota:<br/><br/> 1 - Utilizando o server URL Microservices, faça a requisição na /api/Backend e armazene a URL retornada para uso posterior. (Obs: Sugerimos realizar essa requisição uma vez ao dia pois a URL retornada pode ser alterada.) <br/> 2 - Com a URL do passo anterior em mãos, faça a requisição de login e armezene o token retornado.(Obs: Esse token expira sempre após a meia noite.)<br/> 3 - Realize a importação ou busca da rota utilizando o token nos headers da requisição com a palavra bearer antes do mesmo (Exemplo: Bearer u797ihf65898sd7841d7sfsdf)<br/><br/> E-mail para suporte: contato@grafostech.com.br <br/> Telefone: (47) 98920-0000 (Whatsapp)  <br/><br/> Observação: Caso não possua um usuário e senha para acesso, solicitar a criação para o cliente ou para o suporte Grafos Tech."
+  },
+  "servers": [
+    {
+      "url": "https://container-app-prod-ms-backend.proudsand-a95781db.eastus.azurecontainerapps.io",
+      "description": "Prod"
+    },
+    {
+      "url": "https://api.grafostech.com.br",
+      "description": "Url Microservices"
+    }
+  ],
+  "paths": {
+    "/api/Backend": {
+      "get": {
+        "tags": [
+          "Microservices"
+        ],
+        "summary": "Pega a URL do Backend para realizar as outras operações.",
+        "description": "Este endpoint é utilizado para retornar a URL sempre atualizada do backend para que o mesmo possa ser usado nas operaçõs seguintes. Indicamos atualizar a URL do backend uma vez por dia.<br/><br/>Indicamos sempre usar a URL (https://api.grafostech.com.br) neste endpoint.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UrlBackend"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Rotas/Import": {
+      "post": {
+        "tags": [
+          "Rotas"
+        ],
+        "summary": "Cria ou atualiza uma rota",
+        "description": "Endpoint utilizado para importar/atualizar uma rota. <br/><br/> Atenção no campo idExterno, pois esse campo é usado para verificar se a rota já está cadastrada no sistema ou não, sendo assim, caso seja enviado o mesmo idExterno, o registro será atualizado. <br/><br/> Exemplo 1 - Apenas com informações básicas. <br/><br/> Exemplo 2 - Com mais informações.  <br/> Obs: As placas, regiões e nome do motorista precisam estar cadastradas no sistema Grafos Tech para terem validade.<br/><br/>O campo 'code' na resposta do endpoint é uma string interna e pode ser uma dessas a seguir: <br/>ERRO<br/>OK<br/>NOT_OK<br/><br/>Podem ser inseridos mais campos futuramente.<br/>Data de atualização: 03/05/2024.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaImport"
+              },
+              "examples": {
+                "Exemplo 1 - Basico": {
+                  "value": {
+                    "idExterno": "Identificador do sistema externo",
+                    "paradas":[
+                      {
+                        "enderecoEntrega":{
+                          "logradouro": "Rua das Ilusões",
+                          "numero": "789",
+                          "complemento": "Bloco C",
+                          "bairro": "Fantasia",
+                          "codigoMunicipio": "",
+                          "nomeMunicipio": "Cidade dos Sonhos",
+                          "sigaUF": "FS",
+                          "cep": "54321000"
+                        },
+                        "idExterno": "Identificador do sistema externo"
+                      }
+                    ]
+                  }
+                },
+                "Exemplo 2 - Completo": {
+                  "value": {
+                    "rotaRegiaoDescricao": "Grande São Paulo",
+                    "idExterno": "Identificador do sistema externo",
+                    "veiculoPlaca": "AAA1515",
+                    "motoristaNome": "João",
+                    "dataInicio": "2023-08-15T12:30:45.678Z",
+                    "localFimDescricao": "Deposito",
+                    "localInicioDescricao": "Deposito",
+                    "paradas":[
+                      {
+                        "enderecoEntrega":{
+                          "logradouro": "Rua das Ilusões",
+                          "numero": "789",
+                          "complemento": "Bloco C",
+                          "bairro": "Fantasia",
+                          "codigoMunicipio": "",
+                          "nomeMunicipio": "Cidade dos Sonhos",
+                          "sigaUF": "FS",
+                          "cep": "54321000",
+                          "longitude": -52.5188,
+                          "latitude": -12.5818
+                        },
+                        "idExterno": "Identificador do sistema externo"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+                "text/plain": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "text/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                }
+            }
+          },
+          "404": {
+            "description": "Success",
+            "content": {
+                "text/plain": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "text/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                }
+            }
+          }
+        }
+      }
+    },
+    "/api/Rotas/AtualizarSequencia": {
+      "post": {
+        "tags": [
+          "Rotas"
+        ],
+        "summary": "Esse endpoint é apenas para exemplo - NÃO IMPLEMENTADO",
+        "description": "O objetivo desse endpoint, é passar a rota(romaneio), com as paradas e com a sequencia roteirizada, com os dados de previsão. </br></br> O campo statusRoteirizacao, vai indicar se a roteirização está concluida (status=2).</br> Sequencia indica a ordem de entrega. </br> DistanciaPrevista, tempoPrevisto, chegadaPrevista, saidaPrevista e tempoParadoEmSegundos, são informações que o roteirizador vai preencher conforme a previsão do algoritmo e das configurações da empresa.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaImport"
+              },
+              "examples": {
+                "Exemplo 1 - Completo": {
+                  "value": {
+                    "rotaRegiaoDescricao": "Grande São Paulo",
+                    "idExterno": "Identificador do sistema externo",
+                    "veiculoPlaca": "AAA1515",
+                    "motoristaNome": "João",
+                    "dataInicio": "2023-08-15T12:30:45.678Z",
+                    "localFimDescricao": "Deposito",
+                    "localInicioDescricao": "Deposito",
+                    "statusRoteirizacao": 0,
+                    "paradas":[
+                      {
+                        "enderecoEntrega":{
+                          "logradouro": "Rua das Ilusões",
+                          "numero": "789",
+                          "complemento": "Bloco C",
+                          "bairro": "Fantasia",
+                          "codigoMunicipio": "",
+                          "nomeMunicipio": "Cidade dos Sonhos",
+                          "sigaUF": "FS",
+                          "cep": "54321000"
+                        },
+                        "idExterno": "Identificador do sistema externo",
+                        "sequencia": "0",
+                        "distanciaPrevista": 0,
+                        "tempoPrevisto":0,
+                        "chegadaPrevista": "2023-08-15T12:30:45.678Z",
+                        "saidaPrevista": "2023-08-15T12:30:45.678Z",
+                        "tempoParadoEmSegundos": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+                "text/plain": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "text/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                }
+            }
+          },
+          "404": {
+            "description": "Success",
+            "content": {
+                "text/plain": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                },
+                "text/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
+                    }
+                }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Realizar login para gerar o token bearer de autenticação.",
+        "description": "Tomar cuidado com a expiração do token (Expira meia noite).",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Monitoramento_Backend.Models.User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReturn"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UrlBackend": {
+        "type": "object",
+        "properties": {
+          "Backend": {
+            "type": "string",
+            "default": "https://container-app-prod-ms-backend.proudsand-a95781db.eastus.azurecontainerapps.io"
+          }
+        }
+      },
+      "UserReturn": {
+        "type": "object",
+        "properties": {
+          "Token": {
+            "type": "string",
+            "default": "9yghsudffasiud0f8s9odj5sdf5s6df46sd7"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaImport": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rotaRegiaoDescricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "idExterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "veiculoPlaca": {
+            "type": "string",
+            "nullable": true
+          },
+          "motoristaNome": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "localFimDescricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "localInicioDescricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusRoteirizacao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paradas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.Paradas"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Monitoramento_Backend.Models_API.Rota.Paradas": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enderecoEntrega": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models.Endereco",
+            "nullable": true
+          },
+          "idExterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "sequencia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "distanciaPrevista": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "tempoPrevisto": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "chegadaPrevista": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "saidaPrevista": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tempoParadoEmSegundos": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Monitoramento_Backend.Models.Endereco": {
+        "required": [
+          "bairro",
+          "cep",
+          "logradouro"
+        ],
+        "type": "object",
+        "properties": {
+          "logradouro": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "string",
+            "nullable": true
+          },
+          "complemento": {
+            "type": "string",
+            "nullable": true
+          },
+          "bairro": {
+            "type": "string"
+          },
+          "codigoMunicipio": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeMunicipio": {
+            "type": "string",
+            "nullable": true
+          },
+          "sigaUF": {
+            "type": "string",
+            "nullable": true
+          },
+          "cep": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Monitoramento_Backend.Models.User": {
+        "required": [
+          "empresaId",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Monitoramento_Backend.Models_API.ResultApi": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusCodeHttp": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Inserir o token JWT com Bearer",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}
