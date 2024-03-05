@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Grafos Tech - Rotas - NÃO IMPLEMENTADO",
+    "title": "Grafos Tech - Rotas - NÃO IMPLEMENTADO.",
     "version": "v1",
     "description": "Passo a passo para realizar o envio/busca de uma Rota:<br/><br/> 1 - Utilizando o server URL Microservices, faça a requisição na /api/Backend e armazene a URL retornada para uso posterior. (Obs: Sugerimos realizar essa requisição uma vez ao dia pois a URL retornada pode ser alterada.) <br/> 2 - Com a URL do passo anterior em mãos, faça a requisição de login e armezene o token retornado.(Obs: Esse token expira sempre após a meia noite.)<br/> 3 - Realize a importação ou busca da rota utilizando o token nos headers da requisição com a palavra bearer antes do mesmo (Exemplo: Bearer u797ihf65898sd7841d7sfsdf)<br/><br/> E-mail para suporte: contato@grafostech.com.br <br/> Telefone: (47) 98920-0000 (Whatsapp)  <br/><br/> Observação: Caso não possua um usuário e senha para acesso, solicitar a criação para o cliente ou para o suporte Grafos Tech."
   },
