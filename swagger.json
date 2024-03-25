@@ -54,9 +54,9 @@
                 "Exemplo 1 - Basico": {
                   "value": {
                     "idExterno": "Identificador do sistema externo",
-                    "paradas":[
+                    "paradas": [
                       {
-                        "enderecoEntrega":{
+                        "enderecoEntrega": {
                           "logradouro": "Rua das Ilusões",
                           "numero": "789",
                           "complemento": "Bloco C",
@@ -80,9 +80,9 @@
                     "dataInicio": "2023-08-15T12:30:45.678Z",
                     "localFimDescricao": "Deposito",
                     "localInicioDescricao": "Deposito",
-                    "paradas":[
+                    "paradas": [
                       {
-                        "enderecoEntrega":{
+                        "enderecoEntrega": {
                           "logradouro": "Rua das Ilusões",
                           "numero": "789",
                           "complemento": "Bloco C",
@@ -107,41 +107,41 @@
           "200": {
             "description": "Success",
             "content": {
-                "text/plain": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "application/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "text/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
                 }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              }
             }
           },
           "404": {
             "description": "Success",
             "content": {
-                "text/plain": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "application/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "text/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
                 }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              }
             }
           }
         }
@@ -171,9 +171,9 @@
                     "localFimDescricao": "Deposito",
                     "localInicioDescricao": "Deposito",
                     "statusRoteirizacao": 0,
-                    "paradas":[
+                    "paradas": [
                       {
-                        "enderecoEntrega":{
+                        "enderecoEntrega": {
                           "logradouro": "Rua das Ilusões",
                           "numero": "789",
                           "complemento": "Bloco C",
@@ -186,7 +186,7 @@
                         "idExterno": "Identificador do sistema externo",
                         "sequencia": "0",
                         "distanciaPrevista": 0,
-                        "tempoPrevisto":0,
+                        "tempoPrevisto": 0,
                         "chegadaPrevista": "2023-08-15T12:30:45.678Z",
                         "saidaPrevista": "2023-08-15T12:30:45.678Z",
                         "tempoParadoEmSegundos": 0
@@ -202,41 +202,85 @@
           "200": {
             "description": "Success",
             "content": {
-                "text/plain": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "application/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "text/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
                 }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              }
             }
           },
           "404": {
             "description": "Success",
             "content": {
-                "text/plain": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "application/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
-                },
-                "text/json": {
-                    "schema": {
-                        "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.ResultApi"
-                    }
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
                 }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Rotas/AlterarDataHora": {
+      "put": {
+        "tags": [
+          "Rotas"
+        ],
+        "summary": "Atualiza o campo de data prevista para início da rota",
+        "description": " O filtro que será passado para requisição deve ser uma placa ou um número de NF que esteja dentro da rota.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Monitoramento_Backend.Dto.Rotas.AlterarDataHoraRotaFiltro"
+              },
+              "examples": {
+                "Exemplo 1 - Placa": {
+                  "value": {
+                    "filtro": "QTP5F71",
+                    "dataInicio": "2024-03-25T14:00:00.000Z"
+                  }
+                },
+                "Exemplo 2 - Nº de NF": {
+                  "value": {
+                    "filtro": "194391",
+                    "dataInicio": "2024-03-25T14:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              }
             }
           }
         }
@@ -455,7 +499,21 @@
         },
         "additionalProperties": false
       },
-      "Monitoramento_Backend.Models_API.ResultApi": {
+      "Monitoramento_Backend.Dto.Rotas.AlterarDataHoraRotaFiltro": {
+        "type": "object",
+        "properties": {
+          "filtro": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Monitoramento_Backend.Models_API.Result.ResultApi": {
         "type": "object",
         "properties": {
           "message": {
