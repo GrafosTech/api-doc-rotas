@@ -98,6 +98,79 @@
                       }
                     ]
                   }
+                },
+                "Exemplo 3 - Com pedidos e produtos, motorista e veiculo": {
+                  "value": {
+                    "idExterno": "Identificador do sistema externo",
+                    "veiculoPlaca": "AAA1515",
+                    "motoristaNome": "João",
+                    "dataPrevista": "2023-08-15T12:30:45.678Z",
+                    "paradas": [
+                      {
+                        "enderecoEntrega": {
+                          "logradouro": "Rua das Ilusões",
+                          "numero": "789",
+                          "complemento": "Bloco C",
+                          "bairro": "Fantasia",
+                          "codigoMunicipio": "",
+                          "nomeMunicipio": "Cidade dos Sonhos",
+                          "sigaUF": "FS",
+                          "cep": "54321000",
+                          "longitude": -52.5188,
+                          "latitude": -12.5818
+                        },
+                        "idExterno": "Identificador do sistema externo",
+                        "entrega":{
+                          "destinatario":{
+                            "idExterno":"Identificador do sistema externo",
+                            "cpf":"",
+                            "cnpj":"",
+                            "razaoSocial":"",
+                            "nomeFantasia":"",
+                            "telefone":"",
+                            "telefone2":"",
+                            "email":""
+                          },
+                          "nFs":[{
+                            "chave":"",
+                            "idExterno" :"",
+                            "numeroDocumentoFiscal" :"",
+                            "dataEmissao" :"2023-08-15T12:30:45.678Z",
+                            "dataSaidaEntrada" :"2023-08-15T12:30:45.678Z",
+                            "informacaoComplementar" :"",
+                            "formaPagamento" :"",
+                            "pesoBruto" : 51.10,
+                            "pesoLiquido" :51.10,
+                            "quantidadeVolume" : 85,
+                            "especie" : "CAIXA",
+                            "total" :{
+                              "valor" : 1.0,
+                              "valorFrete" :1.0,
+                              "valorDesconto" :1.0,
+                              "valorOutros" :1.0,
+                              "valorTotal" :1.0
+                            },
+                            "produtosServicos":[
+                              {
+                                "quantidade" : 2.0,
+                                "valorUnitario" :2.0,
+                                "valorTotalBruto" :2.0,
+                                "valorDesconto":2.0,
+                                "valorEntraValorTotal" :2.0,
+                                "produtoServico" :{
+                                  "codigoProdutoServico" :"",
+                                  "codigoBarra" :"",
+                                  "descricao" :"",
+                                  "codigoNcm" :"",
+                                  "unidadeComercial" :""
+                                }
+                              }
+                            ]
+                          }]
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
