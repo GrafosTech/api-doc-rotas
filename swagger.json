@@ -359,6 +359,343 @@
         }
       }
     },
+    "/api/Rotas/GetByFiltro": {
+      "get": {
+        "tags": [
+          "Rotas"
+        ],
+        "summary": "Lista rotas com filtros e paginação",
+        "description": "Endpoint para listar rotas aplicando filtros por status, data prevista, data de alteração e com suporte a paginação. <br/><br/>Parâmetros de filtro: <br/>- status: Status da roteirização (0=Pendente, 1=Em Andamento, 2=Concluída, 3=Cancelada) <br/>- dataInicio/dataFim: Período para filtrar pela data prevista da rota <br/>- dataAlteracaoInicio/dataAlteracaoFim: Período para filtrar rotas que foram alteradas/atualizadas <br/>- veiculoPlaca: Filtrar por placa do veículo <br/>- motoristaNome: Filtrar por nome do motorista <br/>- pagina: Número da página (começa em 1) <br/>- tamanho: Quantidade de registros por página (máximo 100) <br/><br/>A resposta inclui informações de paginação e a lista de rotas resumidas.",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status da roteirização para filtrar",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [0, 1, 2, 3]
+            }
+          },
+          {
+            "name": "dataInicio",
+            "in": "query",
+            "description": "Data de início do período para filtrar (formato: YYYY-MM-DD)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "dataFim",
+            "in": "query",
+            "description": "Data de fim do período para filtrar (formato: YYYY-MM-DD)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "dataAlteracaoInicio",
+            "in": "query",
+            "description": "Data e hora de início do período para filtrar rotas alteradas (formato: YYYY-MM-DDTHH:MM:SS.sssZ)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "dataAlteracaoFim",
+            "in": "query",
+            "description": "Data e hora de fim do período para filtrar rotas alteradas (formato: YYYY-MM-DDTHH:MM:SS.sssZ)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "veiculoPlaca",
+            "in": "query",
+            "description": "Placa do veículo para filtrar",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "motoristaNome",
+            "in": "query",
+            "description": "Nome do motorista para filtrar",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "description": "Número da página (padrão: 1)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "description": "Quantidade de registros por página (padrão: 20, máximo: 100)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaListResponse"
+                },
+                "examples": {
+                  "Exemplo 1 - Lista com paginação": {
+                    "value": {
+                      "dados": [
+                        {
+                          "id": 123,
+                          "idExterno": "ROTA_001",
+                          "veiculoPlaca": "ABC1234",
+                          "motoristaNome": "João Silva",
+                          "rotaRegiaoDescricao": "Grande São Paulo",
+                          "dataInicio": "2024-03-25T08:00:00.000Z",
+                          "statusRoteirizacao": 1,
+                          "quantidadeParadas": 5,
+                          "localInicioDescricao": "Depósito Central",
+                          "localFimDescricao": "Depósito Central",
+                          "roteirizacaoFim": "2024-03-25T18:30:00.000Z",
+                          "updatedDate": "2024-03-25T10:15:00.000Z",
+                          "pesoTotal": 150.5,
+                          "volumeTotal": 25.8,
+                          "valorTotalFrete": 85.50,
+                          "valorTotalCarga": 1250.00,
+                          "cubagemTotal": 2.5
+                        },
+                        {
+                          "id": 124,
+                          "idExterno": "ROTA_002",
+                          "veiculoPlaca": "XYZ5678",
+                          "motoristaNome": "Maria Santos",
+                          "rotaRegiaoDescricao": "ABC",
+                          "dataInicio": "2024-03-25T09:00:00.000Z",
+                          "statusRoteirizacao": 2,
+                          "quantidadeParadas": 3,
+                          "localInicioDescricao": "Filial Norte",
+                          "localFimDescricao": "Filial Norte",
+                          "roteirizacaoFim": "2024-03-25T16:45:00.000Z",
+                          "updatedDate": "2024-03-25T11:20:00.000Z",
+                          "pesoTotal": 89.2,
+                          "volumeTotal": 18.3,
+                          "valorTotalFrete": 45.00,
+                          "valorTotalCarga": 850.00,
+                          "cubagemTotal": 1.8
+                        }
+                      ],
+                      "paginacao": {
+                        "paginaAtual": 1,
+                        "tamanhoPagina": 20,
+                        "totalRegistros": 45,
+                        "totalPaginas": 3,
+                        "temProximaPagina": true,
+                        "temPaginaAnterior": false
+                      },
+                      "message": "Consulta realizada com sucesso",
+                      "code": "OK",
+                      "statusCodeHttp": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Rotas/GetByID/{id}": {
+      "get": {
+        "tags": [
+          "Rotas"
+        ],
+        "summary": "Busca rota completa por ID",
+        "description": "Endpoint para buscar uma rota específica pelo ID, retornando todas as informações da rota incluindo paradas, entregas, destinatários e documentos fiscais vinculados. <br/><br/>Retorna a rota completa com todos os detalhes para visualização ou edição.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da rota",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponse"
+                },
+                "examples": {
+                  "Exemplo 1 - Rota completa": {
+                    "value": {
+                      "dados": {
+                        "id": 123,
+                        "rotaRegiaoDescricao": "Grande São Paulo",
+                        "idExterno": "ROTA_001",
+                        "veiculoPlaca": "ABC1234",
+                        "motoristaNome": "João Silva",
+                        "dataInicio": "2024-03-25T08:00:00.000Z",
+                        "dataPrevista": "2024-03-25T08:00:00.000Z",
+                        "localFimDescricao": "Depósito Central",
+                        "localInicioDescricao": "Depósito Central",
+                        "statusRoteirizacao": 1,
+                        "pesoTotal": 100.0,
+                        "volumeTotal": 200.0,
+                        "quantidadeDeParadas": 5,
+                        "valorTotalFrete": 50.0,
+                        "valorTotalCarga": 100.0,
+                        "cubagemTotal": 1.0,
+                        "paradas": [
+                          {
+                            "id": 1,
+                            "enderecoEntrega": {
+                              "logradouro": "Rua das Flores",
+                              "numero": "123",
+                              "complemento": "Apto 101",
+                              "bairro": "Centro",
+                              "codigoMunicipio": "3550308",
+                              "nomeMunicipio": "São Paulo",
+                              "sigaUF": "SP",
+                              "cep": "01000000",
+                              "latitude": -23.5505,
+                              "longitude": -46.6333
+                            },
+                            "idExterno": "PARADA_001",
+                            "sequencia": 1,
+                            "distanciaPrevista": 15.5,
+                            "tempoPrevisto": 30,
+                            "chegadaPrevista": "2024-03-25T09:00:00.000Z",
+                            "saidaPrevista": "2024-03-25T09:30:00.000Z",
+                            "tempoParadoEmSegundos": 1800,
+                            "entrega": {
+                              "destinatario": {
+                                "idExterno": "CLIENTE_001",
+                                "cpf": "123.456.789-00",
+                                "cnpj": "",
+                                "razaoSocial": "João da Silva",
+                                "nomeFantasia": "",
+                                "telefone": "(11) 99999-9999",
+                                "telefone2": "",
+                                "email": "joao@email.com"
+                              },
+                              "nFs": [
+                                {
+                                  "chave": "35240312345678901234567890123456789012345678",
+                                  "idExterno": "NF_001",
+                                  "numeroDocumentoFiscal": "123456",
+                                  "dataEmissao": "2024-03-24T10:00:00.000Z",
+                                  "dataSaidaEntrada": "2024-03-24T14:00:00.000Z",
+                                  "informacaoComplementar": "Entrega urgente",
+                                  "formaPagamento": "PIX",
+                                  "pesoBruto": 10.5,
+                                  "pesoLiquido": 9.8,
+                                  "quantidadeVolume": 2,
+                                  "especie": "CAIXA",
+                                  "total": {
+                                    "valor": 150.00,
+                                    "valorFrete": 15.00,
+                                    "valorDesconto": 5.00,
+                                    "valorOutros": 0.00,
+                                    "valorTotal": 160.00
+                                  },
+                                  "produtosServicos": [
+                                    {
+                                      "quantidade": 2.0,
+                                      "valorUnitario": 75.00,
+                                      "valorTotalBruto": 150.00,
+                                      "valorDesconto": 5.00,
+                                      "valorEntraValorTotal": 145.00,
+                                      "produtoServico": {
+                                        "codigoProdutoServico": "PROD001",
+                                        "codigoBarra": "7891234567890",
+                                        "descricao": "Produto Exemplo",
+                                        "codigoNcm": "12345678",
+                                        "unidadeComercial": "UN"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "message": "Rota encontrada com sucesso",
+                      "code": "OK",
+                      "statusCodeHttp": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                },
+                "examples": {
+                  "Rota não encontrada": {
+                    "value": {
+                      "message": "Rota não encontrada",
+                      "code": "NOT_FOUND",
+                      "statusCodeHttp": 404
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Users/login": {
       "post": {
         "tags": [
@@ -603,6 +940,415 @@
           }
         },
         "additionalProperties": false
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaListResponse": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaListResponseItem"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaListResponsePaginacao"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaListResponseItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idExterno": {
+            "type": "string"
+          },
+          "veiculoPlaca": {
+            "type": "string"
+          },
+          "motoristaNome": {
+            "type": "string"
+          },
+          "rotaRegiaoDescricao": {
+            "type": "string"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusRoteirizacao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantidadeParadas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "localInicioDescricao": {
+            "type": "string"
+          },
+          "localFimDescricao": {
+            "type": "string"
+          },
+          "roteirizacaoFim": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "pesoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "volumeTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotalFrete": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotalCarga": {
+            "type": "number",
+            "format": "double"
+          },
+          "cubagemTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaListResponsePaginacao": {
+        "type": "object",
+        "properties": {
+          "paginaAtual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tamanhoPagina": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPaginas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temProximaPagina": {
+            "type": "boolean"
+          },
+          "temPaginaAnterior": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponse": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItem"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "statusCodeHttp": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rotaRegiaoDescricao": {
+            "type": "string"
+          },
+          "idExterno": {
+            "type": "string"
+          },
+          "veiculoPlaca": {
+            "type": "string"
+          },
+          "motoristaNome": {
+            "type": "string"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataPrevista": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "localFimDescricao": {
+            "type": "string"
+          },
+          "localInicioDescricao": {
+            "type": "string"
+          },
+          "statusRoteirizacao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pesoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "volumeTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantidadeDeParadas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valorTotalFrete": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotalCarga": {
+            "type": "number",
+            "format": "double"
+          },
+          "cubagemTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "paradas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemParada"
+            }
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemParada": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enderecoEntrega": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models.Endereco"
+          },
+          "idExterno": {
+            "type": "string"
+          },
+          "sequencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanciaPrevista": {
+            "type": "number",
+            "format": "double"
+          },
+          "tempoPrevisto": {
+            "type": "number",
+            "format": "double"
+          },
+          "chegadaPrevista": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "saidaPrevista": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tempoParadoEmSegundos": {
+            "type": "number",
+            "format": "float"
+          },
+          "entrega": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntrega"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntrega": {
+        "type": "object",
+        "properties": {
+          "destinatario": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaDestinatario"
+          },
+          "nFs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaNF"
+            }
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaDestinatario": {
+        "type": "object",
+        "properties": {
+          "idExterno": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string"
+          },
+          "razaoSocial": {
+            "type": "string"
+          },
+          "nomeFantasia": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string"
+          },
+          "telefone2": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaNF": {
+        "type": "object",
+        "properties": {
+          "chave": {
+            "type": "string"
+          },
+          "idExterno": {
+            "type": "string"
+          },
+          "numeroDocumentoFiscal": {
+            "type": "string"
+          },
+          "dataEmissao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataSaidaEntrada": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "informacaoComplementar": {
+            "type": "string"
+          },
+          "formaPagamento": {
+            "type": "string"
+          },
+          "pesoBruto": {
+            "type": "number",
+            "format": "double"
+          },
+          "pesoLiquido": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantidadeVolume": {
+            "type": "number",
+            "format": "double"
+          },
+          "especie": {
+            "type": "string"
+          },
+          "total": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaTotal"
+          },
+          "produtosServicos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaProdutoServico"
+            }
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaTotal": {
+        "type": "object",
+        "properties": {
+          "valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorFrete": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorDesconto": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorOutros": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotal": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaProdutoServico": {
+        "type": "object",
+        "properties": {
+          "quantidade": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorUnitario": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotalBruto": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorDesconto": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorEntraValorTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "produtoServico": {
+            "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaProdutoServicoProdutoServico"
+          }
+        }
+      },
+      "Monitoramento_Backend.Models_API.Rota.RotaDetailResponseItemEntregaProdutoServicoProdutoServico": {
+        "type": "object",
+        "properties": {
+          "codigoProdutoServico": {
+            "type": "string"
+          },
+          "codigoBarra": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "codigoNcm": {
+            "type": "string"
+          },
+          "unidadeComercial": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
