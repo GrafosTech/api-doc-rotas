@@ -364,178 +364,101 @@
         "tags": [
           "Rotas"
         ],
-        "summary": "Lista rotas com filtros e paginação",
-        "description": "Endpoint para listar rotas aplicando filtros por status, data prevista, data de alteração e com suporte a paginação. <br/><br/>Parâmetros de filtro: <br/>- status: Status da roteirização (0=Pendente, 1=Em Andamento, 2=Concluída, 3=Cancelada) <br/>- dataInicio/dataFim: Período para filtrar pela data prevista da rota <br/>- dataAlteracaoInicio/dataAlteracaoFim: Período para filtrar rotas que foram alteradas/atualizadas <br/>- veiculoPlaca: Filtrar por placa do veículo <br/>- motoristaNome: Filtrar por nome do motorista <br/>- pagina: Número da página (começa em 1) <br/>- tamanho: Quantidade de registros por página (máximo 100) <br/><br/>A resposta inclui informações de paginação e a lista de rotas resumidas.",
         "parameters": [
           {
-            "name": "status",
+            "name": "Status",
             "in": "query",
-            "description": "Status da roteirização para filtrar",
-            "required": false,
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "enum": [0, 1, 2, 3]
+              "type": "string"
             }
           },
           {
-            "name": "dataInicio",
+            "name": "Data.Start",
             "in": "query",
-            "description": "Data de início do período para filtrar (formato: YYYY-MM-DD)",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "dataFim",
-            "in": "query",
-            "description": "Data de fim do período para filtrar (formato: YYYY-MM-DD)",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "dataAlteracaoInicio",
-            "in": "query",
-            "description": "Data e hora de início do período para filtrar rotas alteradas (formato: YYYY-MM-DDTHH:MM:SS.sssZ)",
-            "required": false,
             "schema": {
               "type": "string",
               "format": "date-time"
             }
           },
           {
-            "name": "dataAlteracaoFim",
+            "name": "Data.End",
             "in": "query",
-            "description": "Data e hora de fim do período para filtrar rotas alteradas (formato: YYYY-MM-DDTHH:MM:SS.sssZ)",
-            "required": false,
             "schema": {
               "type": "string",
               "format": "date-time"
             }
           },
           {
-            "name": "veiculoPlaca",
+            "name": "DataAlteracao.Start",
             "in": "query",
-            "description": "Placa do veículo para filtrar",
-            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "DataAlteracao.End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "VeiculoPlaca",
+            "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "motoristaNome",
+            "name": "MotoristaNome",
             "in": "query",
-            "description": "Nome do motorista para filtrar",
-            "required": false,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "pagina",
+            "name": "Pagination.CurrentPage",
             "in": "query",
-            "description": "Número da página (padrão: 1)",
-            "required": false,
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "minimum": 1,
-              "default": 1
+              "format": "int32"
             }
           },
           {
-            "name": "tamanho",
+            "name": "Pagination.PageSize",
             "in": "query",
-            "description": "Quantidade de registros por página (padrão: 20, máximo: 100)",
-            "required": false,
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Rota.RotaListResponse"
-                },
-                "examples": {
-                  "Exemplo 1 - Lista com paginação": {
-                    "value": {
-                      "dados": [
-                        {
-                          "id": 123,
-                          "idExterno": "ROTA_001",
-                          "veiculoPlaca": "ABC1234",
-                          "motoristaNome": "João Silva",
-                          "rotaRegiaoDescricao": "Grande São Paulo",
-                          "dataInicio": "2024-03-25T08:00:00.000Z",
-                          "statusRoteirizacao": 1,
-                          "quantidadeParadas": 5,
-                          "localInicioDescricao": "Depósito Central",
-                          "localFimDescricao": "Depósito Central",
-                          "roteirizacaoFim": "2024-03-25T18:30:00.000Z",
-                          "updatedDate": "2024-03-25T10:15:00.000Z",
-                          "pesoTotal": 150.5,
-                          "volumeTotal": 25.8,
-                          "valorTotalFrete": 85.50,
-                          "valorTotalCarga": 1250.00,
-                          "cubagemTotal": 2.5
-                        },
-                        {
-                          "id": 124,
-                          "idExterno": "ROTA_002",
-                          "veiculoPlaca": "XYZ5678",
-                          "motoristaNome": "Maria Santos",
-                          "rotaRegiaoDescricao": "ABC",
-                          "dataInicio": "2024-03-25T09:00:00.000Z",
-                          "statusRoteirizacao": 2,
-                          "quantidadeParadas": 3,
-                          "localInicioDescricao": "Filial Norte",
-                          "localFimDescricao": "Filial Norte",
-                          "roteirizacaoFim": "2024-03-25T16:45:00.000Z",
-                          "updatedDate": "2024-03-25T11:20:00.000Z",
-                          "pesoTotal": 89.2,
-                          "volumeTotal": 18.3,
-                          "valorTotalFrete": 45.00,
-                          "valorTotalCarga": 850.00,
-                          "cubagemTotal": 1.8
-                        }
-                      ],
-                      "paginacao": {
-                        "paginaAtual": 1,
-                        "tamanhoPagina": 20,
-                        "totalRegistros": 45,
-                        "totalPaginas": 3,
-                        "temProximaPagina": true,
-                        "temPaginaAnterior": false
-                      },
-                      "message": "Consulta realizada com sucesso",
-                      "code": "OK",
-                      "statusCodeHttp": 200
-                    }
-                  }
+                  "$ref": "#/components/schemas/Grafos.Shared.Common.Contracts.Common.BaseResponse`1[[Grafos.Backend.Domain.Models_API.Rota.RotaListResponseItem[], Grafos.Backend.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
                 }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Monitoramento_Backend.Models_API.Result.ResultApi"
+                  "$ref": "#/components/schemas/Grafos.Shared.Common.Contracts.Common.BaseResponse`1[[Grafos.Backend.Domain.Models_API.Rota.RotaListResponseItem[], Grafos.Backend.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Grafos.Shared.Common.Contracts.Common.BaseResponse`1[[Grafos.Backend.Domain.Models_API.Rota.RotaListResponseItem[], Grafos.Backend.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
                 }
               }
             }
@@ -729,6 +652,204 @@
   },
   "components": {
     "schemas": {
+      "Grafos.Shared.Common.Contracts.Common.BaseResponse`1[[Grafos.Backend.Domain.Models_API.Rota.RotaListResponseItem[], Grafos.Backend.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusCodeHttp": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Grafos.Backend.Domain.Models_API.Rota.RotaListResponseItem"
+            },
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Grafos.Shared.Common.Contracts.Common.Pagination.PaginationMeta"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Grafos.Backend.Domain.Models_API.Rota.RotaListResponseItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idExterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "empresaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "veiculoPlaca": {
+            "type": "string",
+            "nullable": true
+          },
+          "motoristaNome": {
+            "type": "string",
+            "nullable": true
+          },
+          "rotaRegiaoDescricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dataInicioRealizada": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dataFim": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/Grafos.Backend.Domain.Models.RotaModels.StatusRota"
+          },
+          "statusRoteirizacao": {
+            "$ref": "#/components/schemas/Grafos.Backend.Domain.Models.RotaModels.StatusRoteirizacao"
+          },
+          "quantidadeParadas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "localInicioDescricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "localFimDescricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "roteirizacaoFim": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "pesoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "volumeTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotalFrete": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotalCarga": {
+            "type": "number",
+            "format": "double"
+          },
+          "cubagemTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "kmPrevistoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "kmRealizadoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "comentario": {
+            "type": "string",
+            "nullable": true
+          },
+          "comAviso": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Grafos.Shared.Common.Contracts.Common.Pagination.PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Grafos.Backend.Domain.Models.RotaModels.StatusRota": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Grafos.Backend.Domain.Models.RotaModels.StatusRoteirizacao": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "UrlBackend": {
         "type": "object",
         "properties": {
